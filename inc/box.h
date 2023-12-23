@@ -16,6 +16,7 @@
 #ifndef BOX_H_
 #define BOX_H_
 
+#include "numerical.h"
 #include "arraytools.h"
 #include <stdlib.h>
 #include "hdf5.h"
