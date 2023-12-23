@@ -40,14 +40,14 @@
 class c_box : public c_fluid
 {
   // The BOX class contains all the information for a given theta_0 BOX
-  
+
   public:
-  
+
   c_box();
   ~c_box();
 
   c_BM BM; // Blandford-McKee analytical solution
-  
+
   double version; // version number of BOX data
 
   double *eint, *velr; // fluid quantities at each R, theta, time
@@ -67,7 +67,7 @@ class c_box : public c_fluid
   #endif
 
   #if BOOST_ == ENABLED_
-  
+
     // fluid quantities for the counterjet, if included on the grid
     double *dens_ctr, *eint_ctr, *velr_ctr;
     double *veltheta_ctr, *pres_ctr;
@@ -95,12 +95,12 @@ class c_box : public c_fluid
   double E_actual; // isotropic equivalent explosion energy before scaling
   double n_actual; // circumburst medium number density before scaling
   double theta_0; // half opening angle in radians
-  
+
   // scaled physics settings requested by user
   double n, E; // desired values (after scaling)
   double Sr; // scale factor for radius and time
   double Sn; // scale factor for n, E
-  
+
   #if BOOST_ == ENABLED_
     double boost;
     bool counterjet; // flag whether counterjet data explicitly in BOX. This
@@ -116,9 +116,9 @@ class c_box : public c_fluid
   double *scale0, *scale1;
   double theta_scale0, theta_scale1;
   int t0, t1; // box snapshot times bounding actual time requested
-  
+
   int i_t_cur; // current time, if snapshot times are used
-  
+
   // time and angle interpolation related
   double fract;
   double theta_max_cur; // current jet opening angle at interpolated time
@@ -128,7 +128,7 @@ class c_box : public c_fluid
     double theta_max_cur_ctr;
     double dtheta_cur_ctr;
   #endif
-  
+
   bool BOX_enabled; // TRUE if BOX solution also used
   bool BM_enabled;  // TRUE if BM solution also used
   int jet;          // use both jets, or jet / counterjet only
@@ -140,12 +140,12 @@ class c_box : public c_fluid
 
   //----------------------------------------------------------------------------
   // class subroutines.
-  
+
   void load(const char* filename);
   void close();
 
   void set_global(); // set values valid throughout BOX at given simulation time
-  void set_scale_factors(); // set the size scaling factor only. Used by 
+  void set_scale_factors(); // set the size scaling factor only. Used by
     // set_global and before computing the required ur_max size of the EDS
 
   void set_local(s_coordinates cor);
@@ -158,7 +158,7 @@ class c_box : public c_fluid
   // variables and routines not accesible from the outside
 
   protected:
-  
+
   bool box_file_open; // true if the data file is open
   bool box_allocated; // true if memory for box is allocated
   bool BOX_filename_allocated; // true if memory for filename allocated
@@ -183,12 +183,12 @@ class c_multibox
 {
   // the multiBOX class contains information for a series of BOXes with a range
   // of theta_0 values
-  
+
   public:
-  
+
     c_multibox(); // sets initialization status to false
     ~c_multibox(); // releases memory
-    
+
     static c_box *box;
     bool initialized; // true only if memory for boxes is assigned
     int no_boxes; // How many boxes in the multibox, which each box covering
@@ -198,15 +198,15 @@ class c_multibox
 
     int i_th0; // index of box with initial opening angle on left of th0
     double th0; // requested opening angle
-  
+
     //--------------------------------------------------------------------------
-    
+
     void initialize(); // allocate array of class box
     void set_theta_0(double a_th0);
-    
+
     // enable / disable BM solution and BOX fluid data for all boxes
     void set_BOXBM(bool BOX_setting, bool BM_setting);
-    
+
     double get_largest_radius(); // returns scaled maximum radius in the boxes
     double fractheta0; // weight factor for interpolation between boxes
 };
