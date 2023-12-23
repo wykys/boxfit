@@ -2,7 +2,7 @@
 !
 ! Created July 1, 2011 by HJvE
 ! Last modified July 28, 2016 by HJvE
-! 
+!
 ! This file contains the parameters for BOXfit v 2.0
 !
 !-------------------------------------------------------------------------------
@@ -14,11 +14,11 @@
 !  1 create light curve between t_0 and t_1, using observer frequency nu_0.
 !  2 create spectrum between nu_0 and nu_1, using observer time t_0.
 !  3 perform iterative fit on dataset starting from boxfitsettings fit values.
-!  4 determine errors on fit parameters via Monte Carlo procedure, assuming 
-!    boxfitsettings represent the best fit values. Use full method of 
+!  4 determine errors on fit parameters via Monte Carlo procedure, assuming
+!    boxfitsettings represent the best fit values. Use full method of
 !    recalculating light curves.
-!  5 determine partial derivatives and exit 
-!  6 determine errors on fit parameters via Monte Carlo procedure, assuming 
+!  5 determine partial derivatives and exit
+!  6 determine errors on fit parameters via Monte Carlo procedure, assuming
 !    boxfitsettings represent the best fit values. Use partial derivatives
 !    method with best fit light curve as starting point.
 
@@ -40,13 +40,13 @@
   data_filename = "grb990510.txt"        ! filename broadband data file
 
   save_intermediate = 1               ! save intermediate outcome after each
-                                      ! drop in annealing temperature; 
+                                      ! drop in annealing temperature;
                                       ! yes (1) or no (0)
   start_from_simplex = 0              ! Start fit from existing simplex
   simplex_filename = "newsimplex.txt" ! filename for the simplex file
 
   save_emission_profile = 1 ! save dF / dt_e when computing light curve or
-                            ! a spectrum. 
+                            ! a spectrum.
 
 !-------------------------------------------------------------------------------
 ! light curve and spectrum settings
@@ -57,12 +57,12 @@
   t_1 =  1e8  ! Latest time for light curve (s)
 
   no_points = 100 ! how many data points in the light curve / spectrum
-  
+
 !-------------------------------------------------------------------------------
 ! non-fit parameter settings
 
   d_L = 1e28    ! observer luminosity distance (cm)
-  z = 0.0       ! cosmic redshift  
+  z = 0.0       ! cosmic redshift
 
 !-------------------------------------------------------------------------------
 ! radiation mechanism related
@@ -83,7 +83,7 @@
 
   BM_start = 300.0 ! Starting fluid Lorentz factor for BM solution
   BM_stop = -1     ! Stopping fluid Lorentz factor for BM. If < 0, use box value
-  
+
   eds_ur_max = -1. ! spatial extent of EDS rays (cm). Set < 0 for automatic
   t_e_0 = -1.      ! Earliest emission time (s). Set < 0 for automatic
   t_e_1 = -1.      ! Latest emission time (s). Set < 0 for automatic
@@ -150,4 +150,4 @@
   epsilon_B_simplex_max = 1.0
   epsilon_E_simplex_max = 1.0
   ksi_N_simplex_max = 1.0
-  
+
