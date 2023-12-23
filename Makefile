@@ -1,6 +1,7 @@
 ################################################################################
 #
-# Boxfit & Dump_box Makefile
+# boxfit & dump_box Makefile
+# wykys 24.12.2023
 #
 ################################################################################
 
@@ -9,6 +10,9 @@ BUILD_DIR = build
 
 # Compiler
 CXX = mpic++
+
+# Optimalizations: -O0, -O1, -O2, -O3, ...
+OPT = -O3
 
 # Linker flags (some example options):
 LDFLAGS = \
@@ -19,7 +23,7 @@ LDFLAGS = \
 
 # Compiler flags
 CPPFLAGS = \
-    -g -O0 -Wall -fopenmp \
+    -g $(OPT) -Wall -fopenmp \
     -I inc \
     -I /usr/include/hdf5/serial \
     -I /lib/x86_64-linux-gnu/openmpi/include
