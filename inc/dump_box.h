@@ -33,9 +33,9 @@ class c_dump_box
     int main(int argc, char* argv[]);
 
   //----------------------------------------------------------------------------
-  
+
   protected:
-  
+
     double dumpxmin, dumpxmax, dumpymin, dumpymax; // snapshot boundaries
     int dumpxres, dumpyres; // snapshot resultion
     int cx, cy; // dummy loop variables
@@ -50,7 +50,7 @@ class c_dump_box
     bool quiet; // if true don't print output on screen
 
     char *outputfilename;
-    
+
     char* varname; // variable name, if provided by name as argument
 
     s_coordinates cor; // coordinates on box
@@ -63,9 +63,9 @@ class c_dump_box
     int cr; // dummy loop variable
 
     c_box box;
-    
+
     //--------------------------------------------------------------------------
-    
+
     int read_parameters(int argc, char* argv[]);
     int dump_slice();
     int dump_2D();

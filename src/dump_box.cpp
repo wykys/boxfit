@@ -13,6 +13,14 @@
 #include "dump_box.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+int noderank; // identity of single core within node
+
+#if OPEN_MPI_ == ENABLED_
+  int nodesize;
+  MPI_Comm nodecom;
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 
 c_dump_box :: c_dump_box()
 {
@@ -22,7 +30,7 @@ c_dump_box :: c_dump_box()
 c_dump_box :: ~c_dump_box()
 {
   // memory management;
-  
+
   delete[] varname;
 }
 
@@ -39,21 +47,21 @@ int c_dump_box :: dump_2D()
   if (!quiet)
   {
     printf("# output filename = %s\n", outputfilename);
-    printf("# image range: x = %e .. %e, y = %e .. %e\n", dumpxmin, dumpxmax, 
+    printf("# image range: x = %e .. %e, y = %e .. %e\n", dumpxmin, dumpxmax,
       dumpymin, dumpymax);
     printf("# resolution of dump: %dx%d\n", dumpxres, dumpyres);
     printf("# fluid variable number: %d\n", fluidvar);
     printf("#--------------------------------------------------------------\n");
     fflush(stdout);
   }
-  
+
   for (cx = 0; cx < dumpxres; cx++)
   {
     for (cy = 0; cy < dumpyres; cy++)
     {
-      x[cx][cy] = 
+      x[cx][cy] =
         dumpxmin + (cx + 0.5) * (dumpxmax - dumpxmin) / (double) dumpxres;
-      y[cx][cy] = 
+      y[cx][cy] =
         dumpymin + (cy + 0.5) * (dumpymax - dumpymin) / (double) dumpyres;
 
       r = sqrt(x[cx][cy] * x[cx][cy] + y[cx][cy] * y[cx][cy]);
@@ -84,64 +92,64 @@ int c_dump_box :: dump_2D()
 
     hid_t outfile, dataset, dataspace;
     hsize_t dim_1d, dim_2d[2];
-  
+
     outfile = H5Fcreate(outputfilename, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-  
+
     dim_1d = 1;
     dataspace = H5Screate_simple(1, &dim_1d, NULL);
-  
+
     dataset = H5Dcreate1(outfile, "wmax", H5T_NATIVE_FLOAT, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &wmax);
     H5Dclose(dataset);
     dataset = H5Dcreate1(outfile, "wmin", H5T_NATIVE_FLOAT, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &wmin);
     H5Dclose(dataset);
     dataset = H5Dcreate1(outfile, "xmax", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &dumpxmax);
     H5Dclose(dataset);
     dataset = H5Dcreate1(outfile, "xmin", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &dumpxmin);
     H5Dclose(dataset);
     dataset = H5Dcreate1(outfile, "ymax", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &dumpymax);
     H5Dclose(dataset);
     dataset = H5Dcreate1(outfile, "ymin", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &dumpymin);
     H5Dclose(dataset);
     dataset = H5Dcreate1(outfile, "t", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &(cor.t));
     H5Dclose(dataset);
-  
+
     H5Sclose(dataspace);
-  
+
     dim_2d[0] = dumpxres;
     dim_2d[1] = dumpyres;
     dataspace = H5Screate_simple(2, &dim_2d[0], NULL);
-  
+
     dataset = H5Dcreate1(outfile, "w", H5T_NATIVE_FLOAT, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &w[0][0]);
     H5Dclose(dataset);
 
     dataset = H5Dcreate1(outfile, "x", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &x[0][0]);
     H5Dclose(dataset);
 
     dataset = H5Dcreate1(outfile, "y", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT);
-    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT, 
+    H5Dwrite(dataset, H5T_NATIVE_DOUBLE, dataspace, dataspace, H5P_DEFAULT,
       &y[0][0]);
     H5Dclose(dataset);
 
     H5Sclose(dataspace);
-  
+
     H5Fclose(outfile);
 
 
@@ -162,15 +170,15 @@ int c_dump_box :: dump_slice()
   rs = array_1d<double>(dumprres);
 
   cor.theta = theta;
-    
+
   for (cr = 0; cr < dumprres; cr++)
   {
     rs[cr] = dumprmin + (cr + .5) * (dumprmax - dumprmin) / (double) dumprres;
     cor.r = rs[cr];
-     
+
     box.set_local(cor);
     ws[cr] = box.local[fluidvar];
-    
+
     if (ws[cr] > wmax) wmax = ws[cr];
     if (ws[cr] < wmin) wmin = ws[cr];
   }
@@ -200,25 +208,25 @@ int c_dump_box :: dump_slice()
 int c_dump_box :: read_parameters(int argc, char* argv[])
 {
   double time_provided = false;
-  
+
   // get a time
-  if (parse_double("-t=", argdouble, argc, argv)) 
+  if (parse_double("-t=", argdouble, argc, argv))
   {
     cor.t = argdouble;
     time_provided = true;
-  } 
+  }
 
   if (parse_int("-snapshot_time=", argint, argc, argv))
   {
     if (argint < 0 or argint >= box.tres)
     {
       printf("ERROR: illegal box snapshot number provided for time.\n");
-      printf("Provided %d, should have been between 0 and %d\n", argint, 
+      printf("Provided %d, should have been between 0 and %d\n", argint,
         box.tres);
       fflush(stdout);
       return 1;
     }
-    
+
     cor.t = box.t[argint];
     time_provided = true;
   }
@@ -236,12 +244,12 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
     dumpxmin = argdouble;
   else
     dumpxmin = 0.;
-    
+
   if (parse_double("-xmax=", argdouble, argc, argv))
     dumpxmax = argdouble;
   else
     dumpymax = cor.t * v_light;
-    
+
   if (parse_double("-ymin=", argdouble, argc, argv))
     dumpymin = argdouble;
   else
@@ -263,11 +271,11 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
     dumpyres = 512;
 
   slice = false; // default, assume 2D dump requested
-  
+
   // user command line options for slice (these overrule 2D options)
   if (parse("-slice", argc, argv) or parse("-s", argc, argv)) slice = true;
 
-  if (parse_double("-rmin=", argdouble, argc, argv)) 
+  if (parse_double("-rmin=", argdouble, argc, argv))
   {
     dumprmin = argdouble;
     slice = true;
@@ -282,13 +290,13 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
   }
   else
     dumprmax = cor.t * v_light;
-  
+
   if (parse_int("-snapshot_rmax=", argint, argc, argv))
   {
     if (argint < 0 or argint >= box.Rres)
     {
       printf("ERROR: illegal box snapshot number provided for Rmax.\n");
-      printf("Provided %d, should have been between 0 and %d\n", argint, 
+      printf("Provided %d, should have been between 0 and %d\n", argint,
         box.tres);
       fflush(stdout);
       return 1;
@@ -298,7 +306,7 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
     dumprmax = box.R_max[0][argint];
   }
 
-  if (parse_double("-fractional_rmin=", argdouble, argc, argv)) 
+  if (parse_double("-fractional_rmin=", argdouble, argc, argv))
   {
     dumprmin = argdouble * dumprmax;
     slice = true;
@@ -311,7 +319,7 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
   }
   else
     dumprres = 100;
-  
+
   if (parse_double("-slice_theta=", argdouble, argc, argv))
   {
     theta = argdouble;
@@ -319,15 +327,15 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
   }
   else
     theta = 0.0;
-  
+
   if (parse_int("-var=", argint, argc, &argv[0]))
     fluidvar = argint;
   else
     fluidvar = rho_;
-  
+
   if (parse_string("-varname=", varname, argc, argv))
     fluidvar = sscanvar(varname);
-  
+
   if (fluidvar < 0)
   {
     printf("# WARNING: wrong fluid name provided: %s. Defaulting to rho\n",
@@ -347,14 +355,14 @@ int c_dump_box :: read_parameters(int argc, char* argv[])
     fluidvar = eint_;
   }
 
-  if (parse("-quiet", argc, argv) or parse("-q", argc, &argv[0])) 
+  if (parse("-quiet", argc, argv) or parse("-q", argc, &argv[0]))
     quiet = true;
   else
     quiet = false;
 
   if (!parse_string("-output=", outputfilename, argc, &argv[0]))
     strcpy(outputfilename, "dump.h5");
-  
+
   return 0; // return success
 }
 
@@ -373,7 +381,7 @@ int c_dump_box :: main(int argc, char* argv[])
   {
     if (argc < 3)
       printf("Not enough arguments.\n");
-      
+
     printf("use: \"dump_box <filename> -t=[float]\" or "
       "\"dump_box <filename> -snapshot_time=[int]\"\n");
     printf("Overview of command-line settings:\n");
@@ -402,7 +410,7 @@ int c_dump_box :: main(int argc, char* argv[])
     printf("  -quiet, -q               avoid output to stdout. Disabled by"
       " default\n");
     printf("\n");
-    
+
     printf("The following command-line settings trigger a single slice dump at"
       " fixed theta and directly to stdout\n");
     printf("  -slice, -s               Switch to 1D slice at fixed theta\n");
@@ -417,7 +425,7 @@ int c_dump_box :: main(int argc, char* argv[])
     printf("  -rres                    resolution r direction, default 100\n");
     printf("  -slice_theta             angle theta of slice (rad), default 0"
       "\n");
-    
+
     printf("\n");
     printf("Fluid variables by name and number:\n");
     printf("  0   rho    comoving density (gram cm^-3)\n");
@@ -444,7 +452,7 @@ int c_dump_box :: main(int argc, char* argv[])
 
   if (result == 0)
   {
-    box.t_e = cor.t;  
+    box.t_e = cor.t;
     box.set_global();
 
     if (slice)
@@ -457,7 +465,7 @@ int c_dump_box :: main(int argc, char* argv[])
 
   //----------------------------------------------------------------------------
   // Memory management and exit program
-  
+
   delete[] outputfilename;
 
   return result;
@@ -471,7 +479,7 @@ int c_dump_box :: main(int argc, char* argv[])
 int main(int argc, char* argv[])
 {
   c_dump_box dump_box; // the main class
-  
+
   return dump_box.main(argc, argv);
 }
 
