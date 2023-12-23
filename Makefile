@@ -5,7 +5,7 @@
 ################################################################################
 
 # Build dir
-BUILD_DIR = ../build
+BUILD_DIR = build
 
 # Compiler
 CXX = mpic++
@@ -20,6 +20,7 @@ LDFLAGS = \
 # Compiler flags
 CPPFLAGS = \
     -g -O0 -Wall -fopenmp \
+    -I inc \
     -I /usr/include/hdf5/serial \
     -I /lib/x86_64-linux-gnu/openmpi/include
 
@@ -43,7 +44,7 @@ BOXFIT_CPP = \
     physics.cpp \
     radiation.cpp
 
-BOXFIT_O = $(addprefix $(BUILD_DIR)/,$(BOXFIT_CPP:.cpp=.o))
+BOXFIT_O = $(addprefix $(BUILD_DIR)/,$(notdir $(BOXFIT_CPP:.cpp=.o)))
 
 ################################################################################
 
@@ -57,13 +58,13 @@ DUMP_BOX_CPP = \
     parse.cpp \
     physics.cpp
 
-DUMP_BOX_O = $(addprefix $(BUILD_DIR)/,$(DUMP_BOX_CPP:.cpp=.o))
+DUMP_BOX_O = $(addprefix $(BUILD_DIR)/,$(notdir $(DUMP_BOX_CPP:.cpp=.o)))
 
 ################################################################################
 
 all: boxfit dump_box
 
-$(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: src/%.cpp | $(BUILD_DIR)
 	$(CXX) -c $(CPPFLAGS) $< -o $@
 
 boxfit: $(BOXFIT_O) | $(BUILD_DIR)
@@ -79,4 +80,5 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 deps:
-    sudo apt install -y libhdf5-dev libopenmpi-dev
+	sudo apt install -y libhdf5-dev libopenmpi-dev
+
