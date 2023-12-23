@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "AMAL",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/hdf5/serial/**",
+                "/lib/x86_64-linux-gnu/openmpi/include/**",
+            ],
+            "defines": [
+
+            ],
+            "cppStandard": "c++17",
+        }
+    ],
+    "version": 4
+}
