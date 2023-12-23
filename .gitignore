@@ -1,6 +1,5 @@
 # files to ignore by git
-src/*.o
-src/makefile
+build/
 
 # some files and directories that are likely to be locally created or generated
 output
