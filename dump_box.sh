@@ -12,7 +12,7 @@ NC='\033[0m'
 
 if [ -e $BUILD_DIR/$APP ]; then
     echo -e "${GREEN}INFO: Running ${YELLOW}$BUILD_DIR/$APP${GREEN} with params: ${CYAN}$@${NC}"
-    mpirun build/dump_box $@
+    mpirun $BUILD_DIR/$APP $@
 else
     echo -e "${RED}ERROR: The application$ ${YELLOW}$BUILD_DIR/$APP${RED} does not exist!${NC}"
     echo -e "${GREEN}INFO: You can try to compile the application with the following command:${CYAN} make $APP${NC}"
