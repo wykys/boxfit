@@ -1,8 +1,6 @@
-# boxfit
+# [boxfit](https://github.com/wykys/boxfit)
 
 This is a fork of the https://github.com/hveerten/boxfit project in which I modified the project structure to make it easier to work with.
-
-
 
 The BOXFIT gamma-ray burst afterglow fit and light curve generator code is a numerical implementation of the work described in [Van Eerten+ 2012](https://ui.adsabs.harvard.edu/abs/2012ApJ...749...44V/abstract). The code is capable of calculating light curves and spectra for arbitrary observer times and frequencies and of performing (broadband) data fits using the downhill simplex method combined with simulated annealing. The flux value for a given observer time and frequency is a function of various variables that set the explosion physics (energy of the explosion, circumburst number density and jet collimation angle), the radiative process (magnetic field generation efficiency, electron shock-acceleration efficiency and synchrotron power slope for the electron energy distribution) and observer position (distance, redshift and angle).
 
@@ -53,7 +51,7 @@ make dump_box
 
 If the compilation is successful, the corresponding binaries are created in the `boxfit/build` directory.
 
-BOXFIT makes use of a series of BOX files containing compressed RHD simulation data. These can be found on the [afterglowlibrary](https://cosmo.nyu.edu/afterglowlibrary/boxfit2011.html) website. Download the files and store them on your local machine, e.g. under the boxfit/data directory
+BOXFIT makes use of a series of BOX files containing compressed RHD simulation data. These can be found on the [afterglowlibrary](https://cosmo.nyu.edu/afterglowlibrary/boxfit2011.html) website. Download the files and store them on your local machine, e.g. under the `boxfit/data` directory
 
 ### Running the code
 
