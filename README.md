@@ -53,6 +53,12 @@ If the compilation is successful, the corresponding binaries are created in the 
 
 BOXFIT makes use of a series of BOX files containing compressed RHD simulation data. These can be found on the [afterglowlibrary](https://cosmo.nyu.edu/afterglowlibrary/boxfit2011.html) website. Download the files and store them on your local machine, e.g. under the `boxfit/data` directory
 
+For this, it is possible to use a simple `download.sh` script, which creates a `boxISM` folder into which it downloads `*.h5` files necessary for simulation.
+
+```bash
+./download.sh
+```
+
 ### Running the code
 
 In the directory `boxfit/settings` the file `boxfitsettings.txt` can be found. Copy this file along with the binary to your local output directory. Update the settings file to point to the correct paths before running BOXFIT. More detailed instructions can be found in the pdf manual.
@@ -65,6 +71,12 @@ Scripts are available to run programs that take care of calling `mpirun`.
 
 # The following script is available to run dump_box
 ./dump_box.sh "your args..."
+```
+
+Sample simulation run
+
+```bash
+./boxfit.sh settings/boxfitsettings.txt
 ```
 
 ## Authors
