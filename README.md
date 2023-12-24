@@ -69,5 +69,6 @@ Scripts are available to run programs that take care of calling `mpirun`.
 
 ## Authors
 
-* **Hendrik van Eerten** - *University of Bath* - [github](https://github.com/hveerten) - [University of Bath](https://researchportal.bath.ac.uk/en/persons/hendrik-van-eerten)
+* __Hendrik van Eerten__ - _University of Bath_ - [github](https://github.com/hveerten) - [University of Bath](https://researchportal.bath.ac.uk/en/persons/hendrik-van-eerten)
+* __Jan Vykydal__ - _An ordinary electrician_
 
