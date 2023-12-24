@@ -30,9 +30,9 @@
   ! set path to BOX files and first part of BOX file name.
 
   box_filename_base = "./data/boxISM/boxISM_"
-  !box_filename_base = "./boxboostISM/boxboostISM_"
-  !box_filename_base = "./boxwindmedboost/boxwindmedboost_"
-  !box_filename_base = "./boxwindboost/boxwindboost_"
+  !box_filename_base = "./data/boxboostmedwind/boxboostmedwind_"
+  !box_filename_base = "./data/boxboostISM/boxboostISM_"
+  !box_filename_base = "./data/boxboostwind/boxboostwind_"
 
   box0 = 0  ! First included BOX number
   box1 = 33 ! Last Included BOX number
