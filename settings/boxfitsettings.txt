@@ -29,7 +29,7 @@
 
   ! set path to BOX files and first part of BOX file name.
 
-  box_filename_base = "./boxISM/boxISM_"
+  box_filename_base = "./data/boxISM/boxISM_"
   !box_filename_base = "./boxboostISM/boxboostISM_"
   !box_filename_base = "./boxwindmedboost/boxwindmedboost_"
   !box_filename_base = "./boxwindboost/boxwindboost_"

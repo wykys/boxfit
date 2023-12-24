@@ -24,8 +24,8 @@ function download()
     fi
 }
 
-mkdir -p boxISM
-cd boxISM
+mkdir -p data/boxISM
+cd data/boxISM
 
 download https://cosmo.nyu.edu/afterglowlibrary/boxfitdatav2/boxISM_00.h5 boxISM_00.h5
 download https://cosmo.nyu.edu/afterglowlibrary/boxfitdatav2/boxISM_01.h5 boxISM_01.h5

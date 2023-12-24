@@ -53,7 +53,7 @@ If the compilation is successful, the corresponding binaries are created in the 
 
 BOXFIT makes use of a series of BOX files containing compressed RHD simulation data. These can be found on the [afterglowlibrary](https://cosmo.nyu.edu/afterglowlibrary/boxfit2011.html) website. Download the files and store them on your local machine, e.g. under the `boxfit/data` directory
 
-For this, it is possible to use a simple `download.sh` script, which creates a `boxISM` folder into which it downloads `*.h5` files necessary for simulation.
+For this, it is possible to use a simple `download.sh` script, which creates a `data/boxISM` folder into which it downloads `*.h5` files necessary for simulation.
 
 ```bash
 ./download.sh
