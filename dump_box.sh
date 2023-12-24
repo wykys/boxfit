@@ -17,5 +17,3 @@ else
     echo -e "${RED}ERROR: The application$ ${YELLOW}$BUILD_DIR/$APP${RED} does not exist!${NC}"
     echo -e "${GREEN}INFO: You can try to compile the application with the following command:${CYAN} make $APP${NC}"
 fi
-
-
