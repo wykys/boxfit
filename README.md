@@ -20,7 +20,7 @@ BOXFIT makes use of the [hdf5](https://www.hdfgroup.org/solutions/hdf5/) file fo
 
 First clone the repository:
 
-```
+```bash
 git clone https://github.com/wykys/boxfit
 ```
 
