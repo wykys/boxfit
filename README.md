@@ -1,5 +1,9 @@
 # boxfit
 
+This is a fork of the https://github.com/hveerten/boxfit project in which I modified the project structure to make it easier to work with.
+
+
+
 The BOXFIT gamma-ray burst afterglow fit and light curve generator code is a numerical implementation of the work described in [Van Eerten+ 2012](https://ui.adsabs.harvard.edu/abs/2012ApJ...749...44V/abstract). The code is capable of calculating light curves and spectra for arbitrary observer times and frequencies and of performing (broadband) data fits using the downhill simplex method combined with simulated annealing. The flux value for a given observer time and frequency is a function of various variables that set the explosion physics (energy of the explosion, circumburst number density and jet collimation angle), the radiative process (magnetic field generation efficiency, electron shock-acceleration efficiency and synchrotron power slope for the electron energy distribution) and observer position (distance, redshift and angle).
 
 The dynamics of the afterglow blast wave have been calculated in a series of 114 high-resolution two-dimensional jet simulations performed with the RAM adaptive-mesh refinement relativistic hydrodynamics (RHD) code [Zhang+ 2006](https://ui.adsabs.harvard.edu/abs/2006ApJS..164..255Z/abstract). The results of these calculations have been compressed and stored in a series of `box' data files and BOXFIT calculates the fluid state for arbitrary fluid variables using interpolations between the data files and analytical scaling relations. End-users of BOXFIT do not need to perform RHD simulations themselves.
@@ -17,25 +21,53 @@ BOXFIT makes use of the [hdf5](https://www.hdfgroup.org/solutions/hdf5/) file fo
 ### Installing
 
 First clone the repository:
-```
-git clone https://github.com/hveerten/boxfit
-```
-In the *boxfit/src* subdirectory, set up a makefile starting from the *makefile.template* file:
-```
-cd boxfit/src
-cp makefile.template makefile
-```
-BOXFIT makes use of a series of BOX files containing compressed RHD simulation data. These can be found on the [afterglowlibrary](https://cosmo.nyu.edu/afterglowlibrary/boxfit2011.html) website. Download the files and store them on your local machine, e.g. under the boxfit/data directory
 
-To compile the code, set the appropriate paths in the makefile and run:
 ```
-make clean boxfit
+git clone https://github.com/wykys/boxfit
 ```
-If compilation is successful, this will produce a binary file *boxfit* in the *boxfit/bin* directory.
+
+The cloned repository contains a Makefile that is used to compile the project. The following command will change to the project directory.
+
+```bash
+cd boxfit/
+```
+
+First you need to install the required packages, the tutorial was tested on __Ubuntu 22.04__.
+
+```bash
+make deps
+```
+
+Then you can proceed to the compilation itself, it is possible to compile all tools or only some.
+
+```bash
+# compiling all programs
+make
+
+# will only compile boxfit
+make boxfit
+
+# will only compile dump_box
+make dump_box
+```
+
+If the compilation is successful, the corresponding binaries are created in the `boxfit/build` directory.
+
+BOXFIT makes use of a series of BOX files containing compressed RHD simulation data. These can be found on the [afterglowlibrary](https://cosmo.nyu.edu/afterglowlibrary/boxfit2011.html) website. Download the files and store them on your local machine, e.g. under the boxfit/data directory
 
 ### Running the code
 
-In the directory *boxfit/settings* the file *boxfitsettings.txt* can be found. Copy this file along with the binary to your local output directory. Update the settings file to point to the correct paths before running BOXFIT. More detailed instructions can be found in the pdf manual.
+In the directory `boxfit/settings` the file `boxfitsettings.txt` can be found. Copy this file along with the binary to your local output directory. Update the settings file to point to the correct paths before running BOXFIT. More detailed instructions can be found in the pdf manual.
+
+Scripts are available to run programs that take care of calling `mpirun`.
+
+```bash
+# The following script is available to run boxfit
+./boxfit.sh "your args..."
+
+# The following script is available to run dump_box
+./dump_box.sh "your args..."
+```
 
 ## Authors
 
