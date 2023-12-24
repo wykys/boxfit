@@ -4,3 +4,9 @@ build/
 # some files and directories that are likely to be locally created or generated
 output
 
+
+boxISM/
+
+lightcurve.txt
+
+*.log
