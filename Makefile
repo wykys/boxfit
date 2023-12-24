@@ -83,6 +83,10 @@ $(BUILD_DIR):
 clean:
 	rm -rf $(BUILD_DIR)
 
+clean_analysis_results:
+	rm -f *.log
+	rm -f lightcurve.txt
+
 deps:
 	sudo apt install -y libhdf5-dev libopenmpi-dev
 
